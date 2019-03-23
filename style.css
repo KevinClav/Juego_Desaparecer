@@ -1,0 +1,45 @@
+@charset "utf-8";
+#pantalla{
+	background: #CCC;
+    width: 640px;
+    height: 320px;
+    text-align: center;
+	background-image: url("img/fondo-guerra-planetaria.jpg")
+	}
+#marcador{
+	float:left;
+    text-align: center;
+	color:#FFF;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:25px;
+	}
+
+#ataque{
+	float:right;
+    text-align: center;
+	color:#FFF;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:25px;
+	}
+
+#MuestraNivel{
+	position:absolute;
+    text-align: center;
+	width: 500px;
+	height: 350px;
+	color:#F00;
+	left: 0px;
+	top: 120px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:40px;
+	display: none;
+	}
+		
+.nave{
+	background-color: red;
+	width: 30px;
+    height: 30px;
+    border-radius: 200px;
+	display: none;
+	}
+	

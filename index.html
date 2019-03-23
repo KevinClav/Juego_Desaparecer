@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="style.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-3.3.1.js"></script>
+	<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		var nNave = 1; //número de nave para el id
+		var puntos = 1; //Puntos o naves eliminadas
+		var nivel = 0; //Para controlar el nivel actual
+		var tiempo = 0; //tiempo por el que serán llamada otra nueva nave enemiga
+		var OtroNivel; //el id para controlar el setinterval por nivel y eliminar el del nivel anterior
+		
+		function NuevoNivel()
+		{
+			nivel++;
+			tiempo = 2000/nivel;
+			//Asigno el nivel a la capa para mostrarlo
+			$("#MuestraNivel").html("Nivel </br>" + nivel)
+			//$('#MuestraNivel').toggle(5000);
+			
+			//Muestro el nuevo nivel
+			$('#MuestraNivel').toggle(1200, function() {
+				//Cuando se muestre, lo oculto y cuando termine lanzo la nave							
+				$('#MuestraNivel').toggle(1200, function() {
+						//creo una nueva nave cada tiempo al ocultarse el efecto del nivel
+						OtroNivel = setInterval(CrearNuevaNave, tiempo);
+				});
+            });
+
+			
+			
+		};
+			
+		function CrearNuevaNave()
+		{	
+			nNave++; //añado uno más al contador de naves
+			
+			//actualizo el número de atacantes, es el número de naves - las eliminadas
+			$('#ataque').html("naves: " + (nNave - puntos));
+			
+			/*Añado la capa con id = Nave + el contador de la nave quedando: Nave1 / Nave2 ...*/
+			jQuery('#pantalla').append('<div id = "Nave'+ nNave +'" class = "nave"></div>')
+
+			/*Cambio la posición de la capa de forma aleatoria*/
+			var idNave = "#Nave"+nNave;
+			$(idNave).css("position", "absolute");
+			$(idNave).css("left", Math.floor(Math.random() * 600)+10);
+			$(idNave).css("top", Math.floor(Math.random() * 320));
+			
+			/*Creo una función a esta capa, cada vez que se pulse en ella se oculta y elimina*/
+			$(idNave).click(function() {
+				$(idNave).fadeOut(500,function(){
+					$('#marcador').html("Puntos: " + puntos++);					
+					$(idNave).remove();
+					//al eliminar la nave compruebo la cantidad de naves actuales por nivel para saber si paso de nivel y cambio parámetros
+					if (puntos == (nivel * 10))
+					{
+						//primero elimino el intervalo existente y creo otro nuevo nivel
+						clearInterval(OtroNivel);
+						NuevoNivel();
+					}					
+				})	
+					
+			});
+			
+			/*Una vez creadas todas las propiedades de la capa la muestro*/
+			$(idNave).fadeIn();
+		};
+		NuevoNivel();
+		
+	});
+
+
+</script>
+</head>
+<body>
+<div id="pantalla">
+	<div id="MuestraNivel"></div>
+    <div id="marcador">Marcador: 0</div>
+    <div id="ataque">naves: 0</div>
+</div>
+
+
+
+</body>
+</html>
